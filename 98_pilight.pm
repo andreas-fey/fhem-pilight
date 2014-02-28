@@ -13,7 +13,7 @@ pilight_Initialize($)
 
   $hash->{SetFn}     = "pilight_Set";
   $hash->{DefFn}     = "pilight_Define";
-  $hash->{AttrList}  = "protocol housecode number systemcode unitcode id remote_ip remote_port";
+  $hash->{AttrList}  = "protocol housecode number systemcode unitcode id remote_ip remote_port useOldVersion";
 }
 
 # housecode == id und number == unitcode
@@ -82,6 +82,7 @@ sub commit
   my $param = $on ? "on" : "off";
   my $remote_ip = AttrVal($name, "remote_ip", '127.0.0.1');
   my $remote_port = AttrVal($name, "remote_port", '5000');
+  my $useOldVersion = AttrVal($name, "useOldVersion", undef);
   my ($socket,$client_socket);
   
   # flush after every write
@@ -92,7 +93,7 @@ sub commit
   PeerPort => $remote_port,
   Proto => 'tcp',
   ); 
-  
+
   if (!$socket) { 
 	Log 3, "pilight: ERROR. Can't open socket to pilight-daemon: $!\n";
         return undef
@@ -101,7 +102,7 @@ sub commit
   my $data = '{ "message": "client sender" }';
   $socket->send($data);
   $socket->recv($data,1024);
-  
+
   $data =~ s/\n/ /g;
   if ( $data !~ /accept client/ ) {
 	Log 3, "pilight: ERROR. No handshake with pilight-daemon. Received: >>>$data<<<\n";
@@ -109,9 +110,17 @@ sub commit
   };
 
   my $code = "{\"protocol\":[ \"$protocol\" ],";
-  switch( $protocol ) {
+  if($useOldVersion) {
+    switch( $protocol ) {
 	case 'kaku_switch' { $code = $code . "\"id\":\"$housecode\", \"unit\":\"$unit\",\"$param\":\"1\""}
 	case 'elro'        { $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+    }
+  }
+  else {
+  switch( $protocol ) {
+	case 'kaku_switch' { $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
+	case 'elro'        { $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+    }
   }
   $code = $code . '}';
 		  
@@ -149,6 +158,8 @@ sub commit
     <br/>
 	If your pilight server does not run on localhost, please set both the attributes <b>remote_ip</b> and <b>remote_port</b>.
     <br/>
+    <b>This version is written for pilight 3.0. If you run an older version, please set the following attribute:</b>
+      <code> attr Weihnachtsbaum useOldVersion 1</code>
   </ul>
 
   <a name="pilight_Attr"></a>

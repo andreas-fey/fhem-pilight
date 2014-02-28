@@ -15,6 +15,8 @@ fhem-pilight
     <br/>
 	If your pilight server does not run on localhost, please set both the attributes <b>remote_ip</b> and <b>remote_port</b>.
     <br/>
+    <b>This version is written for pilight 3.0. If you run an older version, please set the following attribute:</b>
+      <code> attr Weihnachtsbaum useOldVersion 1</code>
   </ul>
 
   <h4>Attributes</h4> 
