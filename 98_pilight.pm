@@ -116,6 +116,8 @@ sub commit
 	case 'elro'        	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
 	case 'elro_he'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
 	case 'elro_hc'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'silvercrest'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'pollin'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
 	case 'intertechno_old'  { $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
     }
   }
@@ -125,6 +127,8 @@ sub commit
 	case 'elro'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'elro_he'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'elro_hc'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'silvercrest'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'pollin'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'intertechno_old'  { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
     }
   }
@@ -154,7 +158,7 @@ sub commit
     <br/>
     <br/>
     Defines a module for setting pilight compartible switches on or off. See <a href="http://www.sweetpi.de/blog/258/funksteckdosen-mit-dem-raspberry-pi-und-pilight-schalten">Sweetpi</a>.<br><br>
-    Supported protocols: kaku_switch, elro_he, elro_hc, and intertechno_old. If you need more, just write an issue!<br/><br/>
+    Supported protocols: kaku_switch, elro_he, elro_hc, silvercrest, pollin and intertechno_old. If you need more, just write an issue!<br/><br/>
     Example:
     <ul>
       <code>define Weihnachtsbaum pilight kaku_switch</code><br>
@@ -173,15 +177,15 @@ sub commit
   <ul>
     <li><a name="protocol"><code>attr &lt;name&gt; protocol &lt;string&gt;</code></a>
                 <br />Protocol used in pilight, e.g. "kaku_switch"</li>
-    <li><a name="user"><code>attr &lt;name&gt; housecode &lt;string&gt;</code></a>
+    <li><a name="housecode"><code>attr &lt;name&gt; housecode &lt;string&gt;</code></a>
                 <br />Housecode used in pilight (for protocol kaku*)</li>
-    <li><a name="user"><code>attr &lt;name&gt; unitcode &lt;string&gt;</code></a>
-                <br />Unit code/device code used in pilight (for protocol kaku*, elso, elro_he, elro_hc, intertechno_old)</li>
+    <li><a name="unitcode"><code>attr &lt;name&gt; unitcode &lt;string&gt;</code></a>
+                <br />Unit code/device code used in pilight (for protocol kaku*, elso, elro_he, elro_hc, silvercrest, pollin, intertechno_old)</li>
     <li><a name="systemcode"><code>attr &lt;name&gt; systemcode &lt;string&gt;</code></a>
-                <br />Systemcode of your switch (for protocol elso, elro_he, elro_hc, intertechno_old)</li>
-    <li><a name="numer"><code>attr &lt;name&gt; remote_ip &lt;string&gt;</code></a>
+                <br />Systemcode of your switch (for protocol elso, elro_he, elro_hc, silvercrest, pollin, intertechno_old)</li>
+    <li><a name="remote_ip"><code>attr &lt;name&gt; remote_ip &lt;string&gt;</code></a>
                 <br />Remote IP of you pilight server (127.0.0.1 is default)</li>
-    <li><a name="numer"><code>attr &lt;name&gt; remote_port &lt;string&gt;</code></a>
+    <li><a name="remote_port"><code>attr &lt;name&gt; remote_port &lt;string&gt;</code></a>
                 <br />Remote port of you pilight server (5000 is default)</li>
   </ul>
 </ul>
