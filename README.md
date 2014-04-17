@@ -18,7 +18,7 @@ fhem-pilight
       <code>attr Weihnachtsbaum unitcode 0</code><br>
     </ul>
     <br/>
-	If your pilight server does not run on localhost, please set both the attributes <b>remote_ip</b> and <b>remote_port</b>.
+	If your pilight server does not run on localhost, please set both the attributes <b>remote_ip</b> and <b>remote_port</b>. If you are running pilight >3.0, then please <b>define the port used by pilight</b> settings: http://www.pilight.org/getting-started/settings/; fhem-plight uses 5000 by default.
     <br/>
     <b>This version is written for pilight 3.0. If you run an older version, please set the following attribute:</b>
       <code> attr Weihnachtsbaum useOldVersion 1</code>
