@@ -95,7 +95,7 @@ sub commit
   ); 
 
   if (!$socket) { 
-	Log 3, "pilight: ERROR. Can't open socket to pilight-daemon: $!\n";
+	Log 3, "pilight: ERROR. Can't open socket to pilight-daemon: $! See: https://github.com/andreas-fey/fhem-pilight/issues/3\n";
         return undef
   };
 
