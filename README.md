@@ -10,7 +10,7 @@ fhem-pilight
     <br/>
     <br/>
     Defines a module for setting pilight compartible switches on or off. See <a href="http://www.sweetpi.de/blog/258/funksteckdosen-mit-dem-raspberry-pi-und-pilight-schalten">Sweetpi</a>.<br><br>
-    Supported protocols: kaku_switch, elro_he, elro_hc, silvercrest, pollin and intertechno_old. If you need more, just write an issue!<br/><br/>
+    Supported protocols: kaku_switch, elro_he, elro_hc, silvercrest, pollin, mumbi, and intertechno_old. If you need more, just write an issue!<br/><br/>
     Example:
     <ul>
       <code>define Weihnachtsbaum pilight kaku_switch</code><br>
