@@ -10,7 +10,7 @@ fhem-pilight
     <br/>
     <br/>
     Defines a module for setting pilight compartible switches on or off. See <a href="http://www.sweetpi.de/blog/258/funksteckdosen-mit-dem-raspberry-pi-und-pilight-schalten">Sweetpi</a>.<br><br>
-    Supported protocols: kaku_switch, elro_he, elro_hc, silvercrest, pollin, mumbi, and intertechno_old. If you need more, just write an issue!<br/><br/>
+    Supported protocols: kaku_switch, quigg_switch, elro_he, elro_hc, silvercrest, pollin, mumbi, and intertechno_old. If you need more, just write an issue!<br/><br/>
     Example:
     <ul>
       <code>define Weihnachtsbaum pilight kaku_switch</code><br>
@@ -30,9 +30,9 @@ fhem-pilight
     <li><a name="protocol"><code>attr &lt;name&gt; protocol &lt;string&gt;</code></a>
                 <br />Protocol used in pilight, e.g. "kaku_switch"</li>
     <li><a name="housecode"><code>attr &lt;name&gt; housecode &lt;string&gt;</code></a>
-                <br />Housecode used in pilight (for protocol kaku*)</li>
+                <br />Housecode used in pilight (for protocol kaku* and quigg_switch)</li>
     <li><a name="unitcode"><code>attr &lt;name&gt; unitcode &lt;string&gt;</code></a>
-                <br />Unit code/device code used in pilight (for protocol kaku*, elso, elro_he, elro_hc, silvercrest, pollin, intertechno_old)</li>
+                <br />Unit code/device code used in pilight (for protocol kaku*, quigg_switch, elso, elro_he, elro_hc, silvercrest, pollin, intertechno_old)</li>
     <li><a name="systemcode"><code>attr &lt;name&gt; systemcode &lt;string&gt;</code></a>
                 <br />Systemcode of your switch (for protocol elso, elro_he, elro_hc, silvercrest, pollin, intertechno_old)</li>
     <li><a name="remote_ip"><code>attr &lt;name&gt; remote_ip &lt;string&gt;</code></a>
