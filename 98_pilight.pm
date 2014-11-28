@@ -109,31 +109,35 @@ sub commit
         return undef
   };
 
-  my $code = "{\"protocol\":[ \"$protocol\" ],";
+  my $code = '{';
   if($useOldVersion) {
     switch( $protocol ) {
-	case 'kaku_switch' 	{ $code = $code . "\"id\":\"$housecode\", \"unit\":\"$unit\",\"$param\":\"1\""}
-	case 'quigg_switch' 	{ $code = $code . "\"id\":\"$housecode\", \"unit\":\"$unit\",\"$param\":\"1\""}
-	case 'elro'        	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'elro_he'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'elro_hc'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'silvercrest'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'pollin'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'mumbi'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'intertechno_old'  { $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+	case 'kaku_switch' 		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"id\":\"$housecode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+	case 'quigg_switch' 	{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"id\":\"$housecode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+	case 'elro'        		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'elro_he'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'elro_hc'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'silvercrest'     	{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'pollin'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'mumbi'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
+	case 'intertechno_old'  { $code = $code . "\"protocol\":[ \"$protocol\" ],\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+	case 'rev1_switch'  	{ $code = $code . "\"$param\":\"1\",\"unit\":$unit,\"id\":\"$systemcode\",\"protocol\":[ \"$protocol\" ]"}
+	case 'rev2_switch'  	{ $code = $code . "\"$param\":\"1\",\"unit\":$unit,\"id\":\"$systemcode\",\"protocol\":[ \"$protocol\" ]"}
     }
   }
   else {
   switch( $protocol ) {
-	case 'kaku_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
-	case 'quigg_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
-	case 'elro'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'elro_he'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'elro_hc'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'silvercrest'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'pollin'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'mumbi'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'intertechno_old'  { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
+	case 'kaku_switch' 		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
+	case 'quigg_switch' 	{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
+	case 'elro'        		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'elro_he'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'elro_hc'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'silvercrest'     	{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'pollin'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'mumbi'     		{ $code = $code . "\"protocol\":[ \"$protocol\" ],\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'intertechno_old'  { $code = $code . "\"protocol\":[ \"$protocol\" ],\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
+	case 'rev1_switch'  	{ $code = $code . "\"$param\":1,\"unit\":$unit,\"id\":\"$systemcode\",\"protocol\":[ \"$protocol\" ]"}
+	case 'rev2_switch'  	{ $code = $code . "\"$param\":1,\"unit\":$unit,\"id\":\"$systemcode\",\"protocol\":[ \"$protocol\" ]"}
     }
   }
   $code = $code . '}';
