@@ -120,7 +120,9 @@ sub commit
 	case 'silvercrest'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
 	case 'pollin'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
 	case 'mumbi'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'intertechno_old'  { $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+	case 'intertechno_old' 	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+	case 'rev1_switch'  	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+	case 'rev2_switch'  	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
     }
   }
   else {
@@ -133,7 +135,9 @@ sub commit
 	case 'silvercrest'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'pollin'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'mumbi'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'intertechno_old'  { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
+	case 'intertechno_old' 	{ $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
+	case 'rev1_switch'  	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
+	case 'rev2_switch'  	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
     }
   }
   $code = $code . '}';
