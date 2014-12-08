@@ -136,8 +136,8 @@ sub commit
 	case 'mumbi'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'intertechno_old'  { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
 	case 'clarus_switch'    { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
-	case 'rev1_switch'  	{ $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
-	case 'rev2_switch'  	{ $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
+	case 'rev1_switch' 	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
+	case 'rev2_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
     }
   }
   $code = $code . '}';
