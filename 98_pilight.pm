@@ -76,6 +76,7 @@ sub commit
   my ($hash, $on) = @_;
   my $name   = $hash->{NAME};
   my $protocol = $hash->{protocol};
+  my $rawCode = $hash->{rawCode};
   my $housecode = AttrVal($name, "id", AttrVal($name, "housecode", $hash->{housecode}));
   my $unit = AttrVal($name, "unitcode", $hash->{unitcode});
   my $systemcode = AttrVal($name, "systemcode", '0');
@@ -139,6 +140,8 @@ sub commit
 	case 'clarus_switch'    { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
 	case 'rev1_switch' 	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
 	case 'rev2_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
+	case 'rev3_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
+	case 'raw'		{ $code = $code . "\"code\":\"$rawCode\""}
     }
   }
   $code = $code . '}';
@@ -167,7 +170,7 @@ sub commit
     <br/>
     <br/>
     Defines a module for setting pilight compartible switches on or off. See <a href="http://www.sweetpi.de/blog/258/funksteckdosen-mit-dem-raspberry-pi-und-pilight-schalten">Sweetpi</a>.<br><br>
-    Supported protocols: kaku_switch, quigg_switch, elro_he, elro_hc, silvercrest, pollin, brennenstuhl, mumbi, impuls, rev1_switch, rev2_switch, clarus_switch and intertechno_old. If you need more, just write an issue!<br/><br/>
+    Supported protocols: kaku_switch, quigg_switch, elro_he, elro_hc, silvercrest, pollin, brennenstuhl, mumbi, impuls, rev1_switch, rev2_switch, clarus_switch, raw, and intertechno_old. If you need more, just write an issue!<br/><br/>
     Example:
     <ul>
       <code>define Weihnachtsbaum pilight kaku_switch</code><br>
@@ -187,11 +190,13 @@ sub commit
     <li><a name="protocol"><code>attr &lt;name&gt; protocol &lt;string&gt;</code></a>
                 <br />Protocol used in pilight, e.g. "kaku_switch"</li>
     <li><a name="housecode"><code>attr &lt;name&gt; housecode &lt;string&gt;</code></a>
-                <br />Housecode used in pilight (for protocol kaku*, clarus_switch, rev1_switch, rev2_switch, quigg_switch)</li>
+                <br />Housecode used in pilight (for protocol kaku*, clarus_switch, rev1_switch, rev2_switch, rev3_switch, quigg_switch)</li>
     <li><a name="systemcode"><code>attr &lt;name&gt; systemcode &lt;string&gt;</code></a>
                 <br />Systemcode of your switch (for protocol elso, elro_he, elro_hc, silvercrest, impuls, pollin, mumbi, brennenstuhl, intertechno_old)</li>
     <li><a name="unitcode"><code>attr &lt;name&gt; unitcode &lt;string&gt;</code></a>
                 <br />Unit code/device code used in pilight (all protocols)</li>
+    <li><a name="rawCode"><code>attr &lt;name&gt; rawCode &lt;string&gt;</code></a>
+                <br />Raw code to send with protocol "raw"</li>
     <li><a name="remote_ip"><code>attr &lt;name&gt; remote_ip &lt;string&gt;</code></a>
                 <br />Remote IP of you pilight server (127.0.0.1 is default)</li>
     <li><a name="remote_port"><code>attr &lt;name&gt; remote_port &lt;string&gt;</code></a>
