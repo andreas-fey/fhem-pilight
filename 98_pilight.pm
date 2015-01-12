@@ -13,7 +13,7 @@ pilight_Initialize($)
 
   $hash->{SetFn}     = "pilight_Set";
   $hash->{DefFn}     = "pilight_Define";
-  $hash->{AttrList}  = "protocol housecode number systemcode unitcode id remote_ip remote_port useOldVersion";
+  $hash->{AttrList}  = "protocol housecode number systemcode unitcode id remote_ip remote_port useOldVersion rawCode";
 }
 
 # housecode == id und number == unitcode
