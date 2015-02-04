@@ -13,7 +13,7 @@ pilight_Initialize($)
 
   $hash->{SetFn}     = "pilight_Set";
   $hash->{DefFn}     = "pilight_Define";
-  $hash->{AttrList}  = "protocol housecode number systemcode unitcode id remote_ip remote_port useOldVersion rawCode";
+  $hash->{AttrList}  = "protocol housecode number systemcode unitcode id remote_ip remote_port useOldVersion rawCodeOn rawCodeOff";
 }
 
 # housecode == id und number == unitcode
@@ -76,7 +76,8 @@ sub commit
   my ($hash, $on) = @_;
   my $name   = $hash->{NAME};
   my $protocol = $hash->{protocol};
-  my $rawCode = $hash->{rawCode};
+  my $rawCodeOn = AttrVal($name, "rawCodeOn", $hash->{rawCodeOn});
+  my $rawCodeOff = AttrVal($name, "rawCodeOff", $hash->{rawCodeOff});
   my $housecode = AttrVal($name, "id", AttrVal($name, "housecode", $hash->{housecode}));
   my $unit = AttrVal($name, "unitcode", $hash->{unitcode});
   my $systemcode = AttrVal($name, "systemcode", '0');
@@ -123,9 +124,23 @@ sub commit
 	case 'mumbi'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
 	case 'intertechno_old'  { $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
     }
-  }
+  } 
   else {
-  switch( $protocol ) {
+    if( $protocol eq 'raw')
+    {
+        Log 3, "pilight protocol: $protocol";
+        Log 4, "pilight raw param: $param";
+        Log 4, "pilight rawCodeOn: $rawCodeOn";
+        Log 4, "piligth rawCodeCff: $rawCodeOff";
+       
+	switch( $param ) {
+          case 'on' 		{ $code = $code . "\"code\":\"$rawCodeOn\""} # on
+          case 'off' 		{ $code = $code . "\"code\":\"$rawCodeOff\""} #off	
+        }
+    }
+    else
+    {
+      switch( $protocol ) {
 	case 'kaku_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
 	case 'quigg_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
 	case 'elro'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
@@ -142,8 +157,9 @@ sub commit
 	case 'rev1_switch' 	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
 	case 'rev2_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
 	case 'rev3_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
-	case 'raw'		{ $code = $code . "\"code\":\"$rawCode\""}
-    }
+    
+	}
+     }
   }
   $code = $code . '}';
 		  
@@ -196,14 +212,19 @@ sub commit
                 <br />Systemcode of your switch (for protocol elso, elro_he, elro_hc, silvercrest, impuls, rsl366, pollin, mumbi, brennenstuhl, intertechno_old)</li>
     <li><a name="unitcode"><code>attr &lt;name&gt; unitcode &lt;string&gt;</code></a>
                 <br />Unit code/device code used in pilight (all protocols)</li>
-    <li><a name="rawCode"><code>attr &lt;name&gt; rawCode &lt;string&gt;</code></a>
-                <br />Raw code to send with protocol "raw"</li>
+    <li><a name="rawCodeOn/rawCodeOff"><code>attr &lt;name&gt; rawCode &lt;string&gt;</code></a>
+                <br />Raw code to send on/off-command with protocol "raw"</li>
     <li><a name="remote_ip"><code>attr &lt;name&gt; remote_ip &lt;string&gt;</code></a>
                 <br />Remote IP of you pilight server (127.0.0.1 is default)</li>
     <li><a name="remote_port"><code>attr &lt;name&gt; remote_port &lt;string&gt;</code></a>
                 <br />Remote port of you pilight server (5000 is default)</li>
+    <li><a name="rawCodeOn"><code>attr &lt;name&gt; rawCodeOn &lt;string&gt;</code></a>
+                <br />Raw command to send to switch device ON (only used with protocol 'raw')</li>
+    <li><a name="rawCodeOff"><code>attr &lt;name&gt; rawCodeOff &lt;string&gt;</code></a>
+                <br />Raw command to send to switch device OFF (only used with protocol 'raw')</li>
   </ul>
 </ul>
 
 =end html
 =cut
+
