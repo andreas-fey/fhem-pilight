@@ -96,17 +96,22 @@ sub commit
   Proto => 'tcp',
   ); 
 
+
   if (!$socket) { 
 	Log 3, "pilight: ERROR. Can't open socket to pilight-daemon: $! See: https://github.com/andreas-fey/fhem-pilight/issues/3\n";
         return undef
   };
 
-  my $data = '{ "message": "client sender" }';
+
+  my $data = '{"action": "identify"}';
+
   $socket->send($data);
   $socket->recv($data,1024);
 
+
   $data =~ s/\n/ /g;
-  if ( $data !~ /accept client/ ) {
+  if ( $data !~ /success/ ) {
+
 	Log 3, "pilight: ERROR. No handshake with pilight-daemon. Received: >>>$data<<<\n";
         return undef
   };
@@ -144,10 +149,12 @@ sub commit
 	case 'kaku_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
 	case 'quigg_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
 	case 'elro'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+
 	case 'elro_he'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'elro_hc'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'silvercrest'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'pollin'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+        case 'elro_he_switch'   { $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'brennenstuhl'    	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'mumbi'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
 	case 'impuls'     	{ $code = $code . "\"systemcode\":$systemcode, \"programcode\":$unit,\"$param\":1"}
@@ -163,7 +170,8 @@ sub commit
   }
   $code = $code . '}';
 		  
-  $data = "{ \"message\": \"send\", \"code\": $code}";
+  $data = "{ \"action\": \"send\", \"code\": $code}";
+
   Log 3, "pilight data: $data";
 
   $socket->send($data);
@@ -208,6 +216,8 @@ sub commit
                 <br />Protocol used in pilight, e.g. "kaku_switch"</li>
     <li><a name="housecode"><code>attr &lt;name&gt; housecode &lt;string&gt;</code></a>
                 <br />Housecode used in pilight (for protocol kaku*, clarus_switch, rev1_switch, rev2_switch, rev3_switch, quigg_switch)</li>
+
+
     <li><a name="systemcode"><code>attr &lt;name&gt; systemcode &lt;string&gt;</code></a>
                 <br />Systemcode of your switch (for protocol elso, elro_he, elro_hc, silvercrest, impuls, rsl366, pollin, mumbi, brennenstuhl, intertechno_old)</li>
     <li><a name="unitcode"><code>attr &lt;name&gt; unitcode &lt;string&gt;</code></a>
