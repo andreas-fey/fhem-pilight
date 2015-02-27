@@ -100,12 +100,12 @@ sub commit
         return undef
   };
 
-  my $data = '{ "message": "client sender" }';
+  my $data = '{"action": "identify"}';
   $socket->send($data);
   $socket->recv($data,1024);
 
   $data =~ s/\n/ /g;
-  if ( $data !~ /accept client/ ) {
+  if ( $data !~ /success/ ) {
 	Log 3, "pilight: ERROR. No handshake with pilight-daemon. Received: >>>$data<<<\n";
         return undef
   };
@@ -146,7 +146,7 @@ sub commit
   }
   $code = $code . '}';
 		  
-  $data = "{ \"message\": \"send\", \"code\": $code}";
+  $data = "{ \"action\": \"send\", \"code\": $code}";
   Log 3, "pilight data: $data";
 
   $socket->send($data);
