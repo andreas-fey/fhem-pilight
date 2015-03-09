@@ -101,45 +101,28 @@ sub commit
         return undef
   };
 
-  my $data = '{ "message": "client sender" }';
+
+  my $data = $useOldVersion ? '{ "message": "client sender" }' : '{ "action": "identify" }';
   $socket->send($data);
   $socket->recv($data,1024);
 
   $data =~ s/\n/ /g;
-  if ( $data !~ /accept client/ ) {
-	Log 3, "pilight: ERROR. No handshake with pilight-daemon. Received: >>>$data<<<\n";
-        return undef
+  if ( $data !~ /accept client/ && $data !~ /success/)  # "accept client" < v6, 
+  { 
+      Log 3, "pilight: ERROR. No handshake with pilight-daemon. Received: >>>$data<<<\n";
+      return undef
   };
 
   my $code = "{\"protocol\":[ \"$protocol\" ],";
-  if($useOldVersion) {
-    switch( $protocol ) {
-	case 'kaku_switch' 	{ $code = $code . "\"id\":\"$housecode\", \"unit\":\"$unit\",\"$param\":\"1\""}
-	case 'quigg_switch' 	{ $code = $code . "\"id\":\"$housecode\", \"unit\":\"$unit\",\"$param\":\"1\""}
-	case 'elro'        	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'elro_he'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'elro_hc'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'silvercrest'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'pollin'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'mumbi'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":\"$unit\",\"$param\":\"1\""}
-	case 'intertechno_old'  { $code = $code . "\"id\":\"$systemcode\", \"unit\":\"$unit\",\"$param\":\"1\""}
+  if( $protocol eq 'raw')
+  {
+    switch( $param ) {
+      case 'on' 		{ $code = $code . "\"code\":\"$rawCodeOn\""} # on
+      case 'off' 		{ $code = $code . "\"code\":\"$rawCodeOff\""} #off	
     }
-  } 
-  else {
-    if( $protocol eq 'raw')
-    {
-        Log 3, "pilight protocol: $protocol";
-        Log 4, "pilight raw param: $param";
-        Log 4, "pilight rawCodeOn: $rawCodeOn";
-        Log 4, "piligth rawCodeCff: $rawCodeOff";
-       
-	switch( $param ) {
-          case 'on' 		{ $code = $code . "\"code\":\"$rawCodeOn\""} # on
-          case 'off' 		{ $code = $code . "\"code\":\"$rawCodeOff\""} #off	
-        }
-    }
-    else
-    {
+  }
+  else
+  {
       switch( $protocol ) {
 	case 'kaku_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
 	case 'quigg_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
@@ -157,13 +140,11 @@ sub commit
 	case 'rev1_switch' 	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
 	case 'rev2_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
 	case 'rev3_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
-    
 	}
-     }
   }
   $code = $code . '}';
 		  
-  $data = "{ \"message\": \"send\", \"code\": $code}";
+  $data = $useOldVersion ? "{ \"message\": \"send\", \"code\": $code}" : "{ \"action\": \"send\", \"code\": $code}";
   Log 3, "pilight data: $data";
 
   $socket->send($data);
@@ -197,7 +178,7 @@ sub commit
     <br/>
 	If your pilight server does not run on localhost, please set both the attributes <b>remote_ip</b> and <b>remote_port</b>. If you are running pilight >3.0, then please <b>define the port used by pilight</b> settings: http://www.pilight.org/getting-started/settings/; fhem-plight uses 5000 by default.
     <br/>
-    <b>This version is written for pilight 5.0. If you run a version < 3.0, please set the following attribute:</b>
+    <b>This version is written for pilight 6.0. If you run a prior version, please set the following attribute:</b>
       <code> attr Weihnachtsbaum useOldVersion 1</code>
   </ul>
 
