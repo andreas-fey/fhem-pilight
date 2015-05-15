@@ -123,26 +123,37 @@ sub commit
   }
   else
   {
+# TBD: dio_screen, generic_dimmer, generic_screen, generic_weather,kaku_dimmer,kaku_screen*,openweathermap,program,quigg_screen,relay,selectremote,wunderground
+
       switch( $protocol ) {
+	case 'brennenstuhl'    	{ $code = $code . "\"systemcode\":\"$systemcode\", \"unitcode\":$unit,\"$param\":1"}
+	case 'clarus_switch'    { $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
+	case 'ehome'		{ $code = $code . "\"id\":\"$housecode\",\"$param\":1"}
+	case 'elro_300'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'elro_400'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'elro_800_switch'  { $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'elro'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}#old
+	case 'elro_he'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}#old
+	case 'elro_hc'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}#old
+	case 'impuls'     	{ $code = $code . "\"systemcode\":\"$systemcode\", \"programcode\":$unit,\"$param\":1"}
+	case 'intertechno_old'  { $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
+	case 'intertechno_switch'{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
 	case 'kaku_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
-	case 'quigg_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
-	case 'quigg_gt7000' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
-	case 'quigg_gt1000' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
-	case 'elro'        	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'elro_he'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'elro_hc'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'silvercrest'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'pollin'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'brennenstuhl'    	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'kaku_switch_old' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
 	case 'mumbi'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
-	case 'impuls'     	{ $code = $code . "\"systemcode\":$systemcode, \"programcode\":$unit,\"$param\":1"}
+	case 'pollin'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'promax'     	{ $code = $code . "\"systemcode\":$systemcode, \"programcode\":$unit,\"$param\":1"}
+	case 'quigg_gt1000' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
+	case 'quigg_gt7000' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}
+	case 'quigg_switch' 	{ $code = $code . "\"id\":$housecode, \"unit\":$unit,\"$param\":1"}#old
 	case 'rsl366'     	{ $code = $code . "\"systemcode\":$systemcode, \"programcode\":$unit,\"$param\":1"}
-	case 'intertechno_old'  { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
-	case 'clarus_switch'    { $code = $code . "\"id\":$systemcode, \"unit\":$unit,\"$param\":1"}
-	case 'rev1_switch' 	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
-	case 'rev2_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
-	case 'rev3_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}
-	}
+	case 'silvercrest'     	{ $code = $code . "\"systemcode\":$systemcode, \"unitcode\":$unit,\"$param\":1"}
+	case 'rev1_switch' 	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}#old
+	case 'rev2_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}#old
+	case 'rev3_switch'	{ $code = $code . "\"id\":\"$systemcode\", \"unit\":$unit,\"$param\":1"}#old
+	case 'x10'		{ $code = $code . "\"id\":\"$housecode\",\"$param\":1"}
+	else			{ $code = $code . "\"id\":\"$housecode\", \"unit\":$unit,\"$param\":1"}
+    }
   }
   $code = $code . '}';
 		  
@@ -170,7 +181,7 @@ sub commit
     <br/>
     <br/>
     Defines a module for setting pilight compartible switches on or off. See <a href="http://www.sweetpi.de/blog/258/funksteckdosen-mit-dem-raspberry-pi-und-pilight-schalten">Sweetpi</a>.<br><br>
-    Supported protocols: kaku_switch, quigg_*, elro_he, elro_hc, silvercrest, pollin, brennenstuhl, mumbi, impuls, rsl366, rev1_switch, rev2_switch, clarus_switch, raw, and intertechno_old. If you need more, just write an issue!<br/><br/>
+    Currently unsupported protocols: dio_screen, generic_dimmer, generic_screen, generic_weather,kaku_dimmer,kaku_screen*,openweathermap,program,quigg_screen,relay,selectremote,wunderground. <br/><br/>
     Example:
     <ul>
       <code>define Weihnachtsbaum pilight kaku_switch</code><br>
@@ -190,7 +201,7 @@ sub commit
     <li><a name="protocol"><code>attr &lt;name&gt; protocol &lt;string&gt;</code></a>
                 <br />Protocol used in pilight, e.g. "kaku_switch"</li>
     <li><a name="housecode"><code>attr &lt;name&gt; housecode &lt;string&gt;</code></a>
-                <br />Housecode used in pilight (for protocol kaku*, clarus_switch, rev1_switch, rev2_switch, rev3_switch, quigg_switch, quigg_gt1000, quigg_gt7000)</li>
+                <br />Housecode used in pilight (for most protocols)</li>
     <li><a name="systemcode"><code>attr &lt;name&gt; systemcode &lt;string&gt;</code></a>
                 <br />Systemcode of your switch (for protocol elso, elro_he, elro_hc, silvercrest, impuls, rsl366, pollin, mumbi, brennenstuhl, intertechno_old)</li>
     <li><a name="unitcode"><code>attr &lt;name&gt; unitcode &lt;string&gt;</code></a>
